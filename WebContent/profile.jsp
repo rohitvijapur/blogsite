@@ -308,7 +308,6 @@ if(user==null){
 	<script src="js/myjs.js" type="text/javascript"></script>
 	
 	
-	
 	<script>
 	
 		let editStatus = false ;
