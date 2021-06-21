@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">About<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="about.jsp">About<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Project Area</a>
@@ -17,10 +17,13 @@
           Courses
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Java</a>
+          <a class="dropdown-item" href="#">Java Programming</a>
           <a class="dropdown-item" href="#">MATLAB</a>
+          <a class="dropdown-item" href="#">Web development</a>
+          <a class="dropdown-item" href="#">Politics</a>
+          <a class="dropdown-item" href="#">Sports</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Bitcoin</a>
+          <a class="dropdown-item" href="#">Cryptocurrency</a>
         </div>
       </li>
       

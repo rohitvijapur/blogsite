@@ -28,7 +28,7 @@
 	<div class="container-fluid m-0 p-0 banner-background">
 		<div class="jumbotron secondary-background text-white">
 			<div class="container">
-				<h3 class="display-3">Welcome to BMSIT Blog page</h3>
+				<h3 class="display-3">Welcome to RV Blogs</h3>
 				<p>To emerge as one of the finest technical institutions of
 					higher learning, to develop engineering professionals who are
 					technically competent, ethical and environment friendly for
@@ -56,9 +56,8 @@
 				<div class="card" style="width: 18rem;">
 
 					<div class="card-body">
-						<h5 class="card-title">Software</h5>
-						<p class="card-text">Some quick example text to build on the
-							card title and make up the bulk of the card's content.</p>
+						<h5 class="card-title">Software Engineering</h5>
+						<p class="card-text">Software engineering is a branch of computer science which includes the development and building of computer systems software and applications software. </p>
 						<a href="#" class="btn primary-background text-white">Read more</a>
 					</div>
 				</div>

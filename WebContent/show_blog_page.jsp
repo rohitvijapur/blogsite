@@ -1,10 +1,13 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.blog.dao.PostDao"%>
 <%@page import="com.blog.helper.ConnectionProvider"%>
-<%@page import="com.blog.entities.Category"%>
-<%@page import="com.blog.entities.User" %>
-<%@page import="com.blog.entities.Message" %>
+<%@page import="com.blog.dao.*" %>
+<%@page import="com.blog.entities.*" %>
+<%@page import="java.util.ArrayList" %>
 <%@page errorPage="error_page.jsp" %>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
+
 
 <!-- validation -->
 <% 
@@ -14,13 +17,21 @@ if(user==null){
 }
 %>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%
+	int postId = Integer.parseInt(request.getParameter("post_id")) ;
+	PostDao d = new PostDao(ConnectionProvider.getConnection()) ;
+	Post p= d.getPostByPostId(postId) ;
+%>
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>User profile</title>
+<title><%= p.getpTitle() %> || Learn through RV Blogs</title>
+
 <link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"crossorigin="anonymous">
 <link href="css/myStyle.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -28,19 +39,42 @@ if(user==null){
 	.banner-background{
 	clip-path: polygon(50% 0%, 100% 0, 100% 85%, 88% 100%, 59% 86%, 46% 100%, 12% 87%, 0 100%, 0 0);
 	}
-		body{
+	.post-title{
+		font-size:25px ;
+		
+	}
+	.post-content{
+		font-size:20px ;
+		
+	}
+	.post-code{
+		font-size:20px ;
+		
+	}
+	.post-date{
+		font-style: italic;
+	}
+	.row-user{
+		border-bottom: 1px solid #e2e2e2 ;
+		
+	}
+	body{
 		background:url(img/dark.jpg);
 		background-size: cover ;
 		background-attachment: fixed ;
 		
 	}
+	
 </style>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v11.0" nonce="AKCZ8BET"></script>
+
 
 
 </head>
 <body>
-		    
-		  <nav class="navbar navbar-expand-lg navbar-light primary-background ">
+
+			  <nav class="navbar navbar-expand-lg navbar-light primary-background ">
 		  <a class="navbar-brand" href="index.jsp"><span class="fa fa-bug fa-spin" ></span> BLOG</a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
@@ -49,8 +83,12 @@ if(user==null){
 		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="about.jsp">About<span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="about.jsp ">About<span class="sr-only">(current)</span></a>
 		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="profile.jsp ">All Posts</a>
+		      </li>
+		      
 		      <li class="nav-item">
 		        <a class="nav-link" href="#">Project Area</a>
 		      </li>
@@ -90,84 +128,74 @@ if(user==null){
 		   
 		  </div>
 		</nav>
+		
+<!--  main content of the post -->
 
-
-
-	<%
-		Message m = (Message) session.getAttribute("msg");
-	if (m != null) {
-	%>
-	<div class="alert <%=m.getCssClass()%>" role="alert">
-		<%=m.getContent()%>
-	</div>
-
-	<%
-		session.removeAttribute("msg");
-	}
-	%>
-	
-	
-	<!--main body of the page!--> 
-	
-	<main>
 	<div class="container">
-		<div class="row mt-4">
-		<!-- first col -->
-			<div class="col-md-4">
-				<!-- categories -->
-				
-					<div class="list-group">
-					
-						<a href="#" onclick="getPosts(0,this)" class=" c-link list-group-item list-group-item-action active">
-							All post
-						</a>
-						<!-- categories from database -->
-						<%
-							PostDao d = new PostDao(ConnectionProvider.getConnection()) ;
-							ArrayList <Category> list1 = d.getAllCategories() ;
-							for(Category cc: list1){
-								%>
-									<a href="#" onclick="getPosts(<%= cc.getCid()%>,this)" class=" c-link list-group-item list-group-item-action">
-							 			<%= cc.getName() %>
-								</a>
-								
-								<%
-							}
-						%>
-								  
-					</div>
+	
+		<div class="row my-4">
 		
-			</div>
+			<div class="col md-6 offset-md-2 ">
 			
-			<!-- second col -->
-			<div class="col-md-8">
-				<!-- posts -->
+				<div class="card">
 				
-				<div class="cointainer text-center text-white" id="loader">
-				
-					<i class="fa fa-refresh fa-4x fa-spin "></i>
-					<h3 class="mt-2 text-white">Loading...</h3>
-				
+					<div class="card-header text-center ">
+					
+						<h4 class="post-title"><%= p.getpTitle() %></h4>
+					
+					</div>
+					
+					<div class="card-body">
+						<img class="card-img-top my-2" src="blog_pics/<%=p.getpPic() %>" alt="Card image cap">
+						<div class="row my-3 row-user">
+							<div class="col-md-8">
+							<%UserDao ud = new UserDao(ConnectionProvider.getConnection()); %>
+							
+							
+								<p class="post-user-info">This blog is posted by <a href="#"><%=ud.getUserByUserId(p.getUserId()).getName() %></a> on </p>
+							
+							</div>
+							<div class="col-md-4 ">
+								<p class="post-date"><%=p.getpDate().toLocaleString() %></p>
+							
+							</div>						
+						
+						</div>
+						
+						<p class="post-content"><%= p.getpContent() %> </p>
+						<br>
+						<br>
+						<div class="post-code"> <pre><%= p.getpCode() %></pre> </div>
+						
+					
+					</div>
+					<div class="card-footer secondary-background">
+					
+					<%
+						LikeDao ld = new LikeDao(ConnectionProvider.getConnection()) ;
+					
+					%>
+						<a href="#" onclick="doLike(<%=p.getPid()%>,<%=user.getId()%>)" class="btn btn-outline-light btn-sm"><i class="fa fa-thumbs-o-up"></i><span class="like-counter"><%= ld.countLikeOnPost(p.getPid()) %></span></a>
+	 					
+	 					
+					
+					</div>
+					
+					<div class="card-footer">
+						<div class="fb-comments" data-href="http://localhost:9000/Blog/show_blog_page.jsp?post_id=<%=p.getPid() %>" data-width="" data-numposts="5"></div>
+					</div>
+					
 				</div>
-				
-				<div class="container-fluid" id="post-container" >
-				
-				</div>
-		
+			
 			</div>
 		</div>
-		
-		
 	
 	</div>
-	</main>
-	
-	<!-- end of main body -->
-	
-	
-	
-	
 
+
+<!-- end od main content -->
+	
+	
 	<!-- Button trigger modal -->
 		
 		<!-- Modal -->
@@ -448,42 +476,11 @@ if(user==null){
 	
 	</script>
 	
-	<!-- loading posts using ajax -->
-	<script>
+		
 	
-	
-	function getPosts(catId,temp){
-
-		$("#loader").show() ;
-		$("#post-container").hide()
-		
-		
-		 $(".c-link").removeClass('active') 
-		$.ajax({
-			url : "load_pages.jsp" ,
-			data : {cid:catId} ,
-			success : function(data, textStatus, jqXHR){
-				console.log(data) ;
-				$("#loader").hide() ;
-				$("#post-container").show() ;
-				$("#post-container").html(data) 
-				
-				$(temp).addClass('active')
-			}
-		})
-		
-		
-		
-	}
-		$(document).ready(function (e) {
-			let allPostRef =$('.c-link')[0] 
-			getPosts(0, allPostRef) 
-		
-		})
-	
-	
-	</script>
 	
 
+	
+	
 </body>
 </html>

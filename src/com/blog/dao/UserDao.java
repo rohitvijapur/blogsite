@@ -103,4 +103,39 @@ public class UserDao {
 		
 		return f;
 	}
+	
+	
+//	get user name by user id
+	
+	public User getUserByUserId(int userId) {
+		User user = null ;
+		try {
+			String q = "select * from user where id=?" ;
+			PreparedStatement ps = this.con.prepareStatement(q); 
+			ps.setInt(1, userId);
+			
+			ResultSet set = ps.executeQuery();
+			if(set.next()) {
+				user = new User() ;
+				String name = set.getString("name");
+				user.setName(name);
+				
+				user.setId(set.getInt("id"));
+				user.setEmail(set.getString("email"));
+				user.setPassword(set.getString("password"));
+				user.setGender(set.getString("gender"));
+				user.setUser_info(set.getString("user_info"));
+				user.setDateTime(set.getTimestamp("rdate"));
+				user.setProfile(set.getString("profile"));
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return user ;
+	}
 }
