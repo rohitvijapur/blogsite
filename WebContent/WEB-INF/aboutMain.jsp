@@ -48,7 +48,7 @@
 		        <a class="nav-link" href="redirectAccess.jsp">Project Area</a>
 		      </li>
 		      <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        <a class="nav-link dropdown-toggle" href="login_page.jsp" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		          Courses
 		        </a>
 		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">

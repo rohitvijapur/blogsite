@@ -1,8 +1,12 @@
+<%@page import="com.blog.entities.*"%>
+<%@page import="java.util.*"%>
+<%@page import="com.blog.dao.*"%>
 <%@page import="com.blog.helper.ConnectionProvider"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
 <%@page import="java.sql.*"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +19,13 @@
 <style >
 	.banner-background{
 	clip-path: polygon(50% 0%, 100% 0, 100% 85%, 88% 100%, 59% 86%, 46% 100%, 12% 87%, 0 100%, 0 0);
+	}
+	
+		body{
+		background:url(img/blue.jpg);
+		background-size: cover ;
+		background-attachment: fixed ;
+		
 	}
 </style>
 
@@ -48,85 +59,83 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<%
+		Message m = (Message) session.getAttribute("msg");
+	if (m != null) {
+	%>
+	<div class="alert <%=m.getCssClass()%>" role="alert">
+		<%=m.getContent()%>
+	</div>
 
-
+	<%
+		session.removeAttribute("msg");
+	}
+	%>
+	
+	
+	<!--main body of the page!--> 
+	
+	<main>
 	<div class="container">
-		<div class="row mb-2 ">
+		<div class="row mt-4">
+		<!-- first col -->
 			<div class="col-md-4">
-				<div class="card" style="width: 18rem;">
-
-					<div class="card-body">
-						<h5 class="card-title">Software Engineering</h5>
-						<p class="card-text">Software engineering is a branch of computer science which includes the development and building of computer systems software and applications software. </p>
-						<a href="#" class="btn primary-background text-white">Read more</a>
+				<!-- categories -->
+				
+					<div class="list-group">
+					
+						<a href="#" onclick="getPosts(0,this)" class=" c-link list-group-item list-group-item-action active">
+							All post
+						</a>
+						<!-- categories from database -->
+						<%
+							PostDao d = new PostDao(ConnectionProvider.getConnection()) ;
+							ArrayList <Category> list1 = d.getAllCategories() ;
+							for(Category cc: list1){
+								%>
+									<a href="#" onclick="getPosts(<%= cc.getCid()%>,this)" class=" c-link list-group-item list-group-item-action">
+							 			<%= cc.getName() %>
+								</a>
+								
+								<%
+							}
+						%>
+								  
 					</div>
-				</div>
+		
 			</div>
 			
-			<div class="col-md-4">
-				<div class="card" style="width: 18rem;">
-
-					<div class="card-body">
-						<h5 class="card-title">Software</h5>
-						<p class="card-text">Some quick example text to build on the
-							card title and make up the bulk of the card's content.</p>
-						<a href="#" class="btn primary-background text-white">Read more</a>
-					</div>
+			<!-- second col -->
+			<div class="col-md-8">
+				<!-- posts -->
+				
+				<div class="cointainer text-center text-dark" id="loader">
+				
+					<i class="fa fa-refresh fa-4x fa-spin "></i>
+					<h3 class="mt-2 text-dark">Loading...</h3>
+				
 				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card" style="width: 18rem;">
-
-					<div class="card-body">
-						<h5 class="card-title">Software</h5>
-						<p class="card-text">Some quick example text to build on the
-							card title and make up the bulk of the card's content.</p>
-						<a href="#" class="btn primary-background text-white">Read
-							more</a>
-					</div>
+				
+				<div class="container-fluid" id="post-container" >
+				
 				</div>
+		
 			</div>
 		</div>
+		
+		
+	
+	</div>
+	</main>
+	
+	<!-- end of main body -->
+	
 
 
-	<div class="row">
-			<div class="col-md-4">
-				<div class="card" style="width: 18rem;">
 
-					<div class="card-body">
-						<h5 class="card-title">Software</h5>
-						<p class="card-text">Some quick example text to build on the
-							card title and make up the bulk of the card's content.</p>
-						<a href="#" class="btn primary-background text-white">Read more</a>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-4">
-				<div class="card" style="width: 18rem;">
-
-					<div class="card-body">
-						<h5 class="card-title">Software</h5>
-						<p class="card-text">Some quick example text to build on the
-							card title and make up the bulk of the card's content.</p>
-						<a href="#" class="btn primary-background text-white">Read more</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card" style="width: 18rem;">
-
-					<div class="card-body">
-						<h5 class="card-title">Software</h5>
-						<p class="card-text">Some quick example text to build on the
-							card title and make up the bulk of the card's content.</p>
-						<a href="#" class="btn primary-background text-white">Read
-							more</a>
-					</div>
-				</div>
-			</div>
+		
 		</div>		
 		
 	</div>
@@ -143,6 +152,45 @@
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<script src="js/myjs.js" type="text/javascript"></script>
+
+<!-- loading posts using ajax -->
+	<script>
+	
+	
+	function getPosts(catId,temp){
+
+		$("#loader").show() ;
+		$("#post-container").hide()
+		
+		
+		 $(".c-link").removeClass('active') 
+		$.ajax({
+			url : "load_pagesForMain.jsp" ,
+			data : {cid:catId} ,
+			success : function(data, textStatus, jqXHR){
+				console.log(data) ;
+				$("#loader").hide() ;
+				$("#post-container").show() ;
+				$("#post-container").html(data) 
+				
+				$(temp).addClass('active')
+			}
+		})
+		
+		
+		
+	}
+		$(document).ready(function (e) {
+			let allPostRef =$('.c-link')[0] 
+			getPosts(0, allPostRef) 
+		
+		})
+	
+	
+	</script>
+	
+
+
 
 </body>
 </html>

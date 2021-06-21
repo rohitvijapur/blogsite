@@ -29,11 +29,12 @@ if(user==null){
 	clip-path: polygon(50% 0%, 100% 0, 100% 85%, 88% 100%, 59% 86%, 46% 100%, 12% 87%, 0 100%, 0 0);
 	}
 		body{
-		background:url(img/dark.jpg);
+		background:url(img/blue.jpg);
 		background-size: cover ;
 		background-attachment: fixed ;
 		
 	}
+	
 </style>
 
 
@@ -49,10 +50,10 @@ if(user==null){
 		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="about.jsp">About<span class="sr-only">(current)</span></a>
+		        <a class="nav-link" href="aboutMain.jsp">About<span class="sr-only">(current)</span></a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link" href="#">Project Area</a>
+		        <a class="nav-link" href="profile.jsp">Project Area</a>
 		      </li>
 		      <!-- <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -143,10 +144,10 @@ if(user==null){
 			<div class="col-md-8">
 				<!-- posts -->
 				
-				<div class="cointainer text-center text-white" id="loader">
+				<div class="cointainer text-center text-dark" id="loader">
 				
 					<i class="fa fa-refresh fa-4x fa-spin "></i>
-					<h3 class="mt-2 text-white">Loading...</h3>
+					<h3 class="mt-2 text-dark">Loading...</h3>
 				
 				</div>
 				

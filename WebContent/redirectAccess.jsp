@@ -19,20 +19,27 @@
 		background-attachment: fixed ;
 		
 	}
+	.written{
+		border-bottom: 1px solid #e2e2e2 ;
+	}
+
+	.lining{
+		margin-bottom:20px ; 
+	}
 </style>
 
 
 </head>
 <body>
 	<%@ include file="normal_navbar.jsp"%>
-		<div class="text-white">
-			
-			<h3>You need to login to access the contents </h3>
-			
-			
-			
-			
+		
+		<div class="container written text-center text-white">
+		<h3>Please login to access the contents </h3>
+			<a href="login_page.jsp" class="btn btn-outline-light btn-lg lining">
+					<span class="	fa fa-user-circle"></span> Login
+				</a>
 		</div>
+		
 	
 </body>
 </html>

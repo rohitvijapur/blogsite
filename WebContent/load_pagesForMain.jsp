@@ -14,7 +14,7 @@
 <%
 
 
-	User uuu = (User)session.getAttribute("currentUser") ;
+	
 	Thread.sleep(200) ;
 	PostDao d = new PostDao(ConnectionProvider.getConnection()) ;
 	int cid = Integer.parseInt(request.getParameter("cid")) ;
@@ -52,9 +52,9 @@
 						LikeDao ld = new LikeDao(ConnectionProvider.getConnection()) ;
 					
 					%>
- 					<a href="#" onclick="doLike(<%=p.getPid()%>,<%=uuu.getId()%>)" class="btn btn-outline-light btn-sm"><i class="fa fa-thumbs-o-up"></i><span class="like-counter"><%= ld.countLikeOnPost(p.getPid()) %></span></a>
-	 				<a href="#" class="btn btn-outline-light btn-sm"><i class="fa fa-commenting"></i><span></span></a>
- 					<a href="show_blog_page.jsp?post_id=<%= p.getPid() %>" class="btn btn-outline-light btn-sm">Read more</a>
+ 					<a href="redirectAccess.jsp"  class="btn btn-outline-light btn-sm"><i class="fa fa-thumbs-o-up"></i><span class="like-counter"><%= ld.countLikeOnPost(p.getPid()) %></span></a>
+	 				<a href="redirectAccess.jsp" class="btn btn-outline-light btn-sm"><i class="fa fa-commenting"></i><span></span></a>
+ 					<a href="redirectAccess.jsp" class="btn btn-outline-light btn-sm">Read more</a>
  				
  				</div>
  			
